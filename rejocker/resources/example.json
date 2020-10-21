@@ -1,0 +1,71 @@
+[
+  {
+    "prefix" : null,
+    "endpoints" : [
+      {
+        "path" : "/info",
+        "get" : {
+          "returned": {
+            "body" : "This is an example"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "prefix" : "/v1",
+    "expected" : {
+      "headers" : {
+        "Accept" : "application/x.rejocker+json;version=1.0"
+      }
+    },  
+    "endpoints" : [
+      {
+        "path" : "/auth",
+        "post" : {
+          "expected" : {
+            "body" : {
+              "username" : "mknopfler",
+              "password" : "sultan0FSw1ng"
+            }
+          },
+          "returned" : {
+            "body" : {
+              "token" : "2b01d9d592da55cca64dd7804bc295e6e03b5df4"
+            }
+          } 
+        }
+      },
+      {
+        "path" : "/users",
+        "get" : {
+          "returned" : {
+            "body" : [
+              {
+                "username" : "dgrohl",
+                "name" : "Dave Grohl",
+                "email" : "dgrohl@foofighters.com"
+              },
+              {
+                "username" : "mknopfler",
+                "name" : "Mark Knopfler",
+                "email" : "knopfler@telegraph-road.com"
+              }
+            ]
+          }
+        },
+        "post" : {
+          "expected" : {
+            "headers" : {
+              "Authorization" : "Bearer 2b01d9d592da55cca64dd7804bc295e6e03b5df4"
+            },
+            "body" : {
+              "username" : "Paul",
+              "email" : "paul@beatles.com"
+            }
+          }
+        }
+      }
+    ]
+  }
+]
