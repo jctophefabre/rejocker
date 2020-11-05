@@ -68,6 +68,9 @@ def subpath(subpath=""):
     if not methodobj.check_expected_headers(request.headers):
         abort(406)
 
+    if not methodobj.check_parameters(request.args):
+        abort(400)
+
     if not methodobj.check_expected_body(str(request.data, 'utf-8')):
         abort(400)
  

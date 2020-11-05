@@ -11,7 +11,7 @@ def readme():
         return f.read()
 
 setup(name = 'rejocker',
-      version = '0.2',
+      version = '0.3',
       description = 'REst Json mOCK servER',
       long_description = readme(),
       author = 'Jean-Christophe Fabre',

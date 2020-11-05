@@ -14,6 +14,8 @@ class RejockerMethod:
 
     def __init__(self):
         self._expected_headers = dict()
+        self._expected_params = dict()
+        self._accepted_params = dict()
         self._expected_body = None
         self._returned_headers = dict()
         self._returned_body = None
@@ -24,6 +26,20 @@ class RejockerMethod:
             found_value = headers.get(k)
             if found_value is None or found_value != v:
                 return False 
+        return True
+
+
+    def check_parameters(self,args):
+        for k,v in self._expected_params.items():
+            found_value = args.get(k)
+            if found_value is None or found_value not in v:
+                return False
+        
+        for k,v in self._accepted_params.items():
+            found_value = args.get(k)
+            if found_value is not None and found_value not in v:
+                return False
+
         return True
 
 
@@ -90,7 +106,7 @@ class Rejocker:
             if "endpoints" in set:
                 for endpdef in set["endpoints"]:
                     endpobj = RejockerEndpoint()
-                    
+
                     for method in Rejocker.METHODS:
                         method_lowcase = method.lower()
                         if method_lowcase in endpdef:
@@ -101,8 +117,17 @@ class Rejocker:
                                 if "headers" in endpdef[method_lowcase]["expected"]:
                                     for k,v in endpdef[method_lowcase]["expected"]["headers"].items():
                                         methobj._expected_headers[k] = v
+                                if "parameters" in endpdef[method_lowcase]["expected"]:
+                                    for k,v in endpdef[method_lowcase]["expected"]["parameters"].items():
+                                        methobj._expected_params[k] = v
                                 if "body" in endpdef[method_lowcase]["expected"]:
                                     methobj._expected_body = endpdef[method_lowcase]["expected"]["body"]
+                            
+                            if "accepted" in endpdef[method_lowcase]:
+                                if "parameters" in endpdef[method_lowcase]["accepted"]:
+                                    for k,v in endpdef[method_lowcase]["accepted"]["parameters"].items():
+                                        methobj._accepted_params[k] = v
+                            
                             if "returned" in endpdef[method_lowcase]:
                                 if "headers" in endpdef[method_lowcase]["returned"]:
                                     for k,v in endpdef[method_lowcase]["returned"]["headers"].items():

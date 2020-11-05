@@ -5,6 +5,16 @@
       {
         "path" : "/info",
         "get" : {
+          "expected": {
+            "parameters": {
+              "lang" : ["fr","en","it"]
+            } 
+          },
+          "accepted": {
+            "parameters": {
+              "format" : ["rss","json"]
+            }
+          },
           "returned": {
             "body" : "This is an example"
           }

@@ -20,28 +20,50 @@ def client():
         yield client
 
 
-def test_00_get_infos(client):
-    res = client.get('/info/')
+def test_000_get_infos_en(client):
+    res = client.get('/info/?lang=en')
     assert res.status_code == 200
     assert res.data == b'This is an example'
 
 
-def test_01_get_doesnotexist_failed(client):
+def test_001_get_infos_it(client):
+    res = client.get('/info/?lang=it')
+    assert res.status_code == 200
+    assert res.data == b'This is an example'
+
+
+def test_002_get_infos_wronglang(client):
+    res = client.get('/info/?lang=es')
+    assert res.status_code == 400
+
+
+def test_003_get_infos_lang_format(client):
+    res = client.get('/info/?lang=it&format=json')
+    assert res.status_code == 200
+    assert res.data == b'This is an example'
+
+
+def test_004_get_infos_lang_wrongformat(client):
+    res = client.get('/info/?lang=it&format=xml')
+    assert res.status_code == 400
+
+
+def test_010_get_doesnotexist_failed(client):
     res = client.get('/doesnotexist/')
     assert res.status_code == 404
 
 
-def test_10_v1_get_users(client):
+def test_100_v1_get_users(client):
     res = client.get('/v1/users/',headers=HEADERS_V1)
     assert res.status_code == 200
 
 
-def test_11_v1_get_users_failed(client):
+def test_101_v1_get_users_failed(client):
     res = client.get('/v1/users/')
     assert res.status_code == 406
 
 
-def test_12_v1_post_auth(client):
+def test_102_v1_post_auth(client):
     res = client.post('/v1/auth/',headers=HEADERS_V1,json={"username" : "mknopfler", "password" : "sultan0FSw1ng"})
     assert res.status_code == 200
     json_data = json.loads(res.data)
@@ -49,25 +71,25 @@ def test_12_v1_post_auth(client):
     assert json_data["token"] == "2b01d9d592da55cca64dd7804bc295e6e03b5df4"
 
 
-def test_13_v1_post_auth_failed(client):
+def test_103_v1_post_auth_failed(client):
     res = client.post('/v1/auth/',headers=HEADERS_V1)
     assert res.status_code == 400
 
 
-def test_14_v1_post_user(client):
+def test_104_v1_post_user(client):
     headers = HEADERS_V1.copy()
     headers["Authorization"] = "Bearer 2b01d9d592da55cca64dd7804bc295e6e03b5df4"
     res = client.post('/v1/users/',headers=headers,json={"username" : "Paul","email" : "paul@beatles.com"})
     assert res.status_code == 200
 
 
-def test_15_v1_post_user_failed(client):
+def test_105_v1_post_user_failed(client):
     headers = HEADERS_V1.copy()
     headers["Authorization"] = "Bearer 2b01d9d592da55cca64dd7804bc295e6e03b5df4"
     res = client.post('/v1/users/',headers=headers)
     assert res.status_code == 400
 
 
-def test_16_v1_post_user_failed(client):
+def test_106_v1_post_user_failed(client):
     res = client.post('/v1/users/',headers=HEADERS_V1,json={"username" : "Paul","email" : "paul@beatles.com"})
     assert res.status_code == 406
