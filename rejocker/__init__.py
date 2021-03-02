@@ -51,7 +51,7 @@ app = Flask(__name__)
 
 
 @app.route('/',methods=rejocker.Rejocker.METHODS)
-@app.route('/<path:subpath>/',methods=rejocker.Rejocker.METHODS)
+@app.route('/<path:subpath>',methods=rejocker.Rejocker.METHODS)
 def subpath(subpath=""):
 
     subpath_norm = rejocker.Rejocker.normalize_url_path(subpath)

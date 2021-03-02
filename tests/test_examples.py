@@ -53,18 +53,33 @@ def test_010_get_doesnotexist_failed(client):
     assert res.status_code == 404
 
 
+def test_010_get_doesnotexist_failed_noendingslash(client):
+    res = client.get('/doesnotexist')
+    assert res.status_code == 404
+
+
 def test_100_v1_get_users(client):
     res = client.get('/v1/users/',headers=HEADERS_V1)
     assert res.status_code == 200
 
 
+def test_100_v1_get_users_noendingslash(client):
+    res = client.get('/v1/users',headers=HEADERS_V1)
+    assert res.status_code == 200
+
+
+def test_100_v1_get_users_doubleendingslashes(client):
+    res = client.get('/v1/users//',headers=HEADERS_V1)
+    assert res.status_code == 200
+
+
 def test_101_v1_get_users_failed(client):
-    res = client.get('/v1/users/')
+    res = client.get('/v1/users')
     assert res.status_code == 406
 
 
 def test_102_v1_post_auth(client):
-    res = client.post('/v1/auth/',headers=HEADERS_V1,json={"username" : "mknopfler", "password" : "sultan0FSw1ng"})
+    res = client.post('/v1/auth',headers=HEADERS_V1,json={"username" : "mknopfler", "password" : "sultan0FSw1ng"})
     assert res.status_code == 200
     json_data = json.loads(res.data)
     assert "token" in json_data
@@ -72,7 +87,7 @@ def test_102_v1_post_auth(client):
 
 
 def test_103_v1_post_auth_failed(client):
-    res = client.post('/v1/auth/',headers=HEADERS_V1)
+    res = client.post('/v1/auth',headers=HEADERS_V1)
     assert res.status_code == 400
 
 
@@ -86,10 +101,10 @@ def test_104_v1_post_user(client):
 def test_105_v1_post_user_failed(client):
     headers = HEADERS_V1.copy()
     headers["Authorization"] = "Bearer 2b01d9d592da55cca64dd7804bc295e6e03b5df4"
-    res = client.post('/v1/users/',headers=headers)
+    res = client.post('/v1/users',headers=headers)
     assert res.status_code == 400
 
 
 def test_106_v1_post_user_failed(client):
-    res = client.post('/v1/users/',headers=HEADERS_V1,json={"username" : "Paul","email" : "paul@beatles.com"})
+    res = client.post('/v1/users',headers=HEADERS_V1,json={"username" : "Paul","email" : "paul@beatles.com"})
     assert res.status_code == 406

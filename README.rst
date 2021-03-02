@@ -5,7 +5,7 @@ rejocker is a REst Json mOCK servER
 
 rejocker is a simple configurable mock server. It is mainly dedicated to the testing of REST clients.
 
-* Support configuration of headers and bodies in resquests and responses
+* Support configuration of headers and bodies in requests and responses
 * Accept and respond with JSON and plain text
 * Support GET,POST,PUT,PATCH and DELETE methods for HTTP requests
 * Return HTTP status codes
@@ -49,7 +49,7 @@ Running the server locally
 
 The server can be run locally for development or testing purposes.
 
-First, the rejocker package have to be installed locally (this should be done oonly once):
+First, the rejocker package have to be installed locally with editable option (this should be done only once):
  
 .. code-block:: shell
  
