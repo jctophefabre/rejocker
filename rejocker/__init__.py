@@ -30,7 +30,7 @@ else:
         with open(REJOCKER_DATA_SOURCE) as json_file:
             JSON_DATA = json.load(json_file)
     except:
-        print(f"Error loading json data from {REJOCKER_DATA_SOURCE}")
+        print("Error loading json data from {}".format(REJOCKER_DATA_SOURCE))
         sys.exit(127)
 
 
@@ -38,7 +38,7 @@ ENDPOINTS = rejocker.Rejocker(JSON_DATA)
 
 
 if os.environ.get("FLASK_ENV") == "development":
-    print(f"Using data from {REJOCKER_DATA_SOURCE}")
+    print("Using data from {}".format(REJOCKER_DATA_SOURCE))
     print("Endpoints:")
     for k,v in ENDPOINTS.get_all_endpoints().items():
         print("-",k,v)
